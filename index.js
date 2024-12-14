@@ -19,8 +19,14 @@ let pre = "", current = "";
 function displayBestscore(level) {
     let data = localStorage.getItem(`Best-score-${level}`)
     data = JSON.parse(data);
-    best_score_display.innerHTML = data[2]
-    High_score = data[2]   
+
+    if (data) {
+        best_score_display.innerHTML = data[2];
+        High_score = data[2];
+    }
+    else{
+        best_score_display.innerHTML = High_score;
+    }
 }
 
 function images_combination(level) {

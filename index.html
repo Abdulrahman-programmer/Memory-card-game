@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Memory Card Game</title>
+    <link rel="shortcut icon" href="Img/memory-game.png" type="image/x-icon">
+    <link rel="stylesheet" href="style.css">
+</head>
+
+
+<body>
+    <nav>
+        <div id="high_score">
+            <h3>Best Score:</h3>
+            <h3 id="best_score">0</h3>
+        </div>
+
+        <div id="Level_board">
+            <h3>
+                <pre>Level: </pre>
+            </h3>
+            <h3 id="level_display">0</h3>
+        </div>
+
+        <div id="score_board">
+            <h3>Your Score:</h3>
+            <h3 id="score">0</h3>
+        </div>
+    </nav>
+    <div id="instruction">
+        <h1>
+            INSTRUCTIONS
+        </h1>
+        <div id="ins_detailed">
+            <ol>
+                <li>
+                    You will see all the cards face up for 10 seconds.
+                    Try to remember the position of each card.
+                </li>
+                <li>
+                    After 10 seconds, the cards will be flipped face down.
+                    Your task is to find matching pairs by flipping two cards at a time.
+                </li>
+                <li>
+                    For every correct match, your score will increase by 2.
+                    For every wrong match, your score will decrease by 1.
+                </li>
+                <li>
+                    Match all the pairs to win the game with the highest score possible!
+                </li>
+            </ol>
+        </div>
+        <div id="Name_input">
+            <label for="input">Enter Your Name:</label>
+            <input type="text" name="Nmae" id="text_input" placeholder="Name">
+        </div>
+
+        <div id="level_op">
+            <label for="dropdown">Choose a Level:</label>
+            <select id="dropdown" name="Level">
+                <option value="easy">Easy</option>
+                <option value="medium">Medium</option>
+                <option value="hard">Hard</option>
+            </select>
+        </div>
+        <button id="game-btn">Start Game</button>
+    </div>
+    <div id="container">
+        <div id="wrapper">
+
+
+        </div>
+    </div>
+    <div id="end-page">
+        <div id="end-content">
+            <h2 id="end-bestscore">Best Score :</h2>
+            <p id="name">by</p>
+            <h2 id="end-score">Your Score :</h2>
+        </div>
+        <button id="play-again-btn">
+            <pre>Play Again</pre>
+        </button>
+    </div>
+</body>
+<script src="index.js"></script>
+
+</html>

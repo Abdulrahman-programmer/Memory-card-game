@@ -7,7 +7,7 @@
 
 body {
     height: 100vh;
-    width: 100%;
+
     background-color: rgb(224, 231, 239);
 }
 
@@ -20,16 +20,18 @@ nav {
     text-align: center;
     font-size: x-large;
     color: aliceblue;
+
 }
 
 nav div {
     display: flex;
-
 }
 
 #score_board {
     justify-content: end;
     margin-right: 8%;
+
+
 }
 
 #high_score {
@@ -38,6 +40,15 @@ nav div {
 
 #Level_board {
     justify-content: center;
+}
+
+#small_nav {
+    display: none;
+    justify-content: space-between;
+    font-size: x-large;
+    padding-top: 1%;
+    padding-left: 2.5%;
+    padding-right: 2.5%;
 }
 
 #container {
@@ -159,17 +170,20 @@ button {
 
 #play-again-btn {
     position: relative;
-    top:60%;
+    top: 60%;
     left: 50%;
     transform: translate(-50%, -50%);
     width: 30%;
 }
 
-#end-content{
+#end-content {
     color: aliceblue;
     height: 15%;
     padding-top: 10%;
     text-align: center;
+}
+#end-score{
+    padding-top: 3%;
 }
 
 .hidden {

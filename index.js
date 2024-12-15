@@ -4,11 +4,18 @@ const front = document.querySelectorAll('.front_side');
 const back = document.querySelectorAll('.back_side');
 const btn = document.getElementById("game-btn");
 const instruction = document.getElementById("instruction");
-const SC = document.getElementById("score");
+const Score_display = document.getElementById("score");
+const high_score_board = document.getElementById("high_score")
+const Score_board = document.getElementById("score_board")
+const Level_board = document.getElementById("Level_board")
+const small_nav = document.getElementById("small_nav")
+const small_score = document.getElementById("small_score")
 const Level_op = document.getElementById("dropdown");
 const best_score_display = document.getElementById("best_score");
 const play_again = document.getElementById("play-again-btn")
 const end_page = document.getElementById("end-page")
+
+let width = window.innerWidth;
 let score = 0;
 let High_score = -999;
 let match_counter = 0;
@@ -24,7 +31,7 @@ function displayBestscore(level) {
         best_score_display.innerHTML = data[2];
         High_score = data[2];
     }
-    else{
+    else {
         best_score_display.innerHTML = High_score;
     }
 }
@@ -162,13 +169,17 @@ function play_game(cards, level, Text) {
                 if (current === pre) {
                     score += 2;
                     match_counter++;
-                    SC.innerHTML = score;
+                    Score_display.innerHTML = score;
+                    if (width < 600) {
+                        small_nav.innerHTML = `<p id="small_highscore">Best Score: ${High_score}</p>
+                                                <p id="small_score">Score :${score}</p>`
+                    }
                     pre_box.classList.add('matched');
                     current_box.classList.add('matched');
 
                 } else {
                     score -= 1;
-                    SC.innerHTML = score;
+                    Score_display.innerHTML = score;
 
                     setTimeout(() => {
                         hide_img(pre_box, current_box);
@@ -189,7 +200,7 @@ function setup_level(level) {
     const display_level = document.getElementById("level_display");
     wrap.innerHTML = "";
     wrap.classList = ""
-   displayBestscore(level)
+    displayBestscore(level)
 
     if (level == "easy") {
         for (let i = 0; i < 8; i++) {
@@ -201,6 +212,10 @@ function setup_level(level) {
         wrap.style.marginTop = "3%";
         Total_match = 4;
         display_level.innerHTML = "EASY";
+        if (width < 600) {
+            container.style.height = "200px";
+            container.style.width = "400px";
+        }
     }
     else if (level == "medium") {
         for (let i = 0; i < 16; i++) {
@@ -211,6 +226,10 @@ function setup_level(level) {
         container.style.height = "500px"
         Total_match = 8;
         display_level.innerHTML = "MEDIUM";
+        if (width < 600) {
+            container.style.height = "400px";
+            container.style.width = "400px";
+        }
     }
     else if (level == "hard") {
         for (let i = 0; i < 36; i++) {
@@ -221,6 +240,28 @@ function setup_level(level) {
         wrap.style.marginTop = "5%"
         Total_match = 18;
         display_level.innerHTML = "HARD";
+        if (width < 600) {
+            container.style.height = "400px";
+            container.style.width = "400px";
+        }
+    }
+
+    if (width < 600) {
+        instruction.style.height = "600px";
+        btn.style.top = "90%";
+        Score_board.style.display = "none"
+        high_score_board.style.display = "none"
+        Level_board.style.position = "absolute"
+        Level_board.style.left = "50%"
+        Level_board.style.transform = "translate(-50%, -50%)"
+        small_nav.style.display = "flex"
+        small_nav.innerHTML = `<p id="small_highscore">Best Score: ${High_score}</p>
+                                    <p id="small_score">Score :${score}</p>`
+        end_page.style.height = "300px"
+        end_page.style.width = "400px"
+        play_again.style.width = "40%"
+        play_again.style.height = "15%"
+
     }
     const cards = document.querySelectorAll('.cards');
     set_img(cards, images_combination(level));
@@ -248,24 +289,24 @@ function set_high_score(level, text) {
             localStorage.setItem(`Best-score-${level}`, JSON.stringify([text, level, High_score]));
         }
         setTimeout(() => {
-          end_page.style.display = "block"
-        end_game(level);  
+            end_page.style.display = "block"
+            end_game(level);
         }, 700);
-        
     }
+
 }
 function end_game(level) {
-    const endBs = document.getElementById("end-bestscore") 
+    const endBs = document.getElementById("end-bestscore")
     const name = document.getElementById("name")
     const score_end = document.getElementById("end-score")
 
     let data = localStorage.getItem(`Best-score-${level}`)
     data = JSON.parse(data);
-    endBs.innerHTML ="Best Score : " + data[2];
+    endBs.innerHTML = "Best Score : " + data[2];
     name.innerHTML = "by " + data[0].toUpperCase();
     score_end.innerHTML = "Your Score : " + score;
 
-    play_again.addEventListener("click",function (){
+    play_again.addEventListener("click", function () {
         location.reload();
         return;
     })
@@ -287,7 +328,7 @@ btn.addEventListener("click",
         }
 
         instruction.classList.add('reduce');
-        
+
         setTimeout(() => {
             Set_game(cards)
             play_game(cards, level, inputText)

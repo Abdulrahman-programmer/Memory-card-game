@@ -34,6 +34,7 @@ function displayBestscore(level) {
     else {
         best_score_display.innerHTML = High_score;
     }
+    
 }
 
 function images_combination(level) {
@@ -128,6 +129,7 @@ function set_img(cards, images) {
         i++
     });
 }
+
 function hide_img(box_A, box_B) {
     const frontSide1 = box_A.querySelector('.front_side');
     const backSide1 = box_A.querySelector('.back_side');
@@ -143,6 +145,41 @@ function hide_img(box_A, box_B) {
     backSide2.classList.add('visible');
 }
 
+function end_game(level) {
+    const endBs = document.getElementById("end-bestscore")
+    const name = document.getElementById("name")
+    const score_end = document.getElementById("end-score")
+
+    let data = localStorage.getItem(`Best-score-${level}`)
+    data = JSON.parse(data);
+    endBs.innerHTML = "Best Score : " + data[2];
+    name.innerHTML = "by " + data[0].toUpperCase();
+    score_end.innerHTML = "Your Score : " + score;
+
+    play_again.addEventListener("click", function () {
+        location.reload();
+        return;
+    })
+
+}
+
+function set_high_score(level, text) {
+
+    if (match_counter === Total_match) {
+        if (score > High_score) {
+            best_score_display.innerHTML = score;
+            High_score = score;
+            localStorage.removeItem(`Best-score-${level}`)
+            localStorage.setItem(`Best-score-${level}`, JSON.stringify([text, level, High_score]));
+        }
+        setTimeout(() => {
+            end_page.style.display = "block"
+            end_game(level);
+        }, 700);
+    }
+
+}
+
 function play_game(cards, level, Text) {
     cards.forEach(card => {
         card.addEventListener('click', () => {
@@ -153,27 +190,24 @@ function play_game(cards, level, Text) {
             current = frontImage.getAttribute('src').split('/').pop();
             const frontSide1 = card.querySelector('.front_side');
             const backSide1 = card.querySelector('.back_side');
-
-            if (frontSide1.classList.contains('hidden')) {
-                frontSide1.classList.remove('hidden');
-                frontSide1.classList.add('visible');
-                backSide1.classList.remove('visible');
-                backSide1.classList.add('hidden');
-            } else {
-                frontSide1.classList.remove('visible');
-                frontSide1.classList.add('hidden');
-                backSide1.classList.remove('hidden');
-                backSide1.classList.add('visible');
+            if (current_box !== pre_box) {
+                if (frontSide1.classList.contains('hidden')) {
+                    frontSide1.classList.remove('hidden');
+                    frontSide1.classList.add('visible');
+                    backSide1.classList.remove('visible');
+                    backSide1.classList.add('hidden');
+                } else {
+                    frontSide1.classList.remove('visible');
+                    frontSide1.classList.add('hidden');
+                    backSide1.classList.remove('hidden');
+                    backSide1.classList.add('visible');
+                }
             }
             if (pre && current_box !== pre_box) {
                 if (current === pre) {
                     score += 2;
                     match_counter++;
                     Score_display.innerHTML = score;
-                    if (width < 600) {
-                        small_nav.innerHTML = `<p id="small_highscore">Best Score: ${High_score}</p>
-                                                <p id="small_score">Score :${score}</p>`
-                    }
                     pre_box.classList.add('matched');
                     current_box.classList.add('matched');
 
@@ -184,15 +218,22 @@ function play_game(cards, level, Text) {
                     setTimeout(() => {
                         hide_img(pre_box, current_box);
                     }, 500);
+                    pre_box = ""
+                    current_box = ""
                 }
 
                 pre = null;
                 current = null;
             }
             set_high_score(level, Text);
+            if (width < 600) {
+                small_nav.innerHTML = `<p id="small_highscore">Best Score: ${High_score}</p>
+                                        <p id="small_score">Score :${score}</p>`
+            }
         });
     });
 }
+
 function setup_level(level) {
     let element = `<div class="cards">
                 <img src="Img/que_icon.svg" alt="" class="back_side">
@@ -243,6 +284,8 @@ function setup_level(level) {
         if (width < 600) {
             container.style.height = "400px";
             container.style.width = "400px";
+            wrap.style.marginTop = "3.3%";
+            wrap.style.marginLeft = "3.3%";
         }
     }
 
@@ -279,39 +322,7 @@ function Set_game(cards) {
     })
 }
 
-function set_high_score(level, text) {
 
-    if (match_counter === Total_match) {
-        if (score > High_score) {
-            best_score_display.innerHTML = score;
-            High_score = score;
-            localStorage.removeItem(`Best-score-${level}`)
-            localStorage.setItem(`Best-score-${level}`, JSON.stringify([text, level, High_score]));
-        }
-        setTimeout(() => {
-            end_page.style.display = "block"
-            end_game(level);
-        }, 700);
-    }
-
-}
-function end_game(level) {
-    const endBs = document.getElementById("end-bestscore")
-    const name = document.getElementById("name")
-    const score_end = document.getElementById("end-score")
-
-    let data = localStorage.getItem(`Best-score-${level}`)
-    data = JSON.parse(data);
-    endBs.innerHTML = "Best Score : " + data[2];
-    name.innerHTML = "by " + data[0].toUpperCase();
-    score_end.innerHTML = "Your Score : " + score;
-
-    play_again.addEventListener("click", function () {
-        location.reload();
-        return;
-    })
-
-}
 setup_level("easy");
 Level_op.addEventListener("change", (event) => {
     setup_level(event.target.value)
@@ -332,11 +343,8 @@ btn.addEventListener("click",
         setTimeout(() => {
             Set_game(cards)
             play_game(cards, level, inputText)
-        }, 10000);
+        }, 1000);
 
 
     }
 );
-
-
-

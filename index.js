@@ -190,7 +190,7 @@ function play_game(cards, level, Text) {
             current = frontImage.getAttribute('src').split('/').pop();
             const frontSide1 = card.querySelector('.front_side');
             const backSide1 = card.querySelector('.back_side');
-            if (current_box !== pre_box) {
+            
                 if (frontSide1.classList.contains('hidden')) {
                     frontSide1.classList.remove('hidden');
                     frontSide1.classList.add('visible');
@@ -202,7 +202,7 @@ function play_game(cards, level, Text) {
                     backSide1.classList.remove('hidden');
                     backSide1.classList.add('visible');
                 }
-            }
+
             if (pre && current_box !== pre_box) {
                 if (current === pre) {
                     score += 2;
@@ -218,8 +218,6 @@ function play_game(cards, level, Text) {
                     setTimeout(() => {
                         hide_img(pre_box, current_box);
                     }, 500);
-                    pre_box = ""
-                    current_box = ""
                 }
 
                 pre = null;
@@ -343,7 +341,7 @@ btn.addEventListener("click",
         setTimeout(() => {
             Set_game(cards)
             play_game(cards, level, inputText)
-        }, 1000);
+        }, 10000);
 
 
     }
